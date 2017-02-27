@@ -483,9 +483,10 @@ return /******/ (function(modules) { // webpackBootstrap
 	          isActive = _props.isActive,
 	          stickyClassName = _props.stickyClassName,
 	          stickyStyle = _props.stickyStyle,
+	          scrollContainerId = _props.scrollContainerId,
 	          bottomOffset = _props.bottomOffset,
 	          onStickyStateChange = _props.onStickyStateChange,
-	          props = _objectWithoutProperties(_props, ['topOffset', 'isActive', 'stickyClassName', 'stickyStyle', 'bottomOffset', 'onStickyStateChange']);
+	          props = _objectWithoutProperties(_props, ['topOffset', 'isActive', 'stickyClassName', 'stickyStyle', 'scrollContainerId', 'bottomOffset', 'onStickyStateChange']);
 
 	      return _react2.default.createElement(
 	        'div',
