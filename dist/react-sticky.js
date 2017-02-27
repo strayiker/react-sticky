@@ -392,14 +392,22 @@ return /******/ (function(modules) { // webpackBootstrap
 	    key: 'on',
 	    value: function on(target, events, callback) {
 	      events.forEach(function (evt) {
-	        target.addEventListener(evt, callback);
+	        if (!target.addEventListener && target.attachEvent) {
+	          target.attachEvent('on' + evt, callback);
+	        } else {
+	          target.addEventListener(evt, callback);
+	        }
 	      });
 	    }
 	  }, {
 	    key: 'off',
 	    value: function off(target, events, callback) {
 	      events.forEach(function (evt) {
-	        target.removeEventListener(evt, callback);
+	        if (!target.removeEventListener && target.detachEvent) {
+	          target.detachEvent('on' + evt, callback);
+	        } else {
+	          target.removeEventListener(evt, callback);
+	        }
 	      });
 	    }
 	  }, {

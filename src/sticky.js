@@ -133,13 +133,21 @@ export default class Sticky extends React.Component {
 
   on(target, events, callback) {
     events.forEach((evt) => {
-      target.addEventListener(evt, callback);
+      if (!target.addEventListener && target.attachEvent) {
+        target.attachEvent(`on${evt}`, callback);
+      } else {
+        target.addEventListener(evt, callback);
+      }
     });
   }
 
   off(target, events, callback) {
     events.forEach((evt) => {
-      target.removeEventListener(evt, callback);
+      if (!target.removeEventListener && target.detachEvent) {
+        target.detachEvent(`on${evt}`, callback);
+      } else {
+        target.removeEventListener(evt, callback);
+      }
     });
   }
 
