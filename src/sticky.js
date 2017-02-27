@@ -217,6 +217,7 @@ export default class Sticky extends React.Component {
       isActive,
       stickyClassName,
       stickyStyle,
+      scrollContainerId,
       bottomOffset,
       onStickyStateChange,
       ...props
