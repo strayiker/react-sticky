@@ -9,6 +9,7 @@ export default class Sticky extends React.Component {
     style: React.PropTypes.object,
     stickyClassName: React.PropTypes.string,
     stickyStyle: React.PropTypes.object,
+    scrollContainerId: React.PropTypes.string,
     topOffset: React.PropTypes.number,
     bottomOffset: React.PropTypes.number,
     onStickyStateChange: React.PropTypes.func
@@ -20,6 +21,7 @@ export default class Sticky extends React.Component {
     style: {},
     stickyClassName: 'sticky',
     stickyStyle: {},
+    scrollContainerId: '',
     topOffset: 0,
     bottomOffset: 0,
     onStickyStateChange: () => {}
@@ -31,6 +33,7 @@ export default class Sticky extends React.Component {
 
   constructor(props) {
     super(props);
+    this.scrollContainer = window;
     this.state = {};
   }
 
@@ -40,7 +43,16 @@ export default class Sticky extends React.Component {
   }
 
   componentDidMount() {
-    this.on(['resize', 'scroll', 'touchstart', 'touchmove', 'touchend', 'pageshow', 'load'], this.recomputeState);
+    const { scrollContainerId } = this.props;
+    const windowEvents = ['resize', 'pageshow', 'load'];
+    const scrollContainerEvents = ['scroll', 'touchstart', 'touchmove', 'touchend'];
+
+    if (scrollContainerId) {
+      this.scrollContainer = document.getElementById(scrollContainerId);
+    }
+
+    this.on(window, windowEvents, this.recomputeState);
+    this.on(this.scrollContainer, scrollContainerEvents, this.recomputeState);
     this.recomputeState();
   }
 
@@ -49,7 +61,11 @@ export default class Sticky extends React.Component {
   }
 
   componentWillUnmount() {
-    this.off(['resize', 'scroll', 'touchstart', 'touchmove', 'touchend', 'pageshow', 'load'], this.recomputeState);
+    const windowEvents = ['resize', 'pageshow', 'load'];
+    const scrollContainerEvents = ['scroll', 'touchstart', 'touchmove', 'touchend'];
+
+    this.off(window, windowEvents, this.recomputeState);
+    this.off(this.scrollContainer, scrollContainerEvents, this.recomputeState);
     this.channel.unsubscribe(this.updateContext);
   }
 
@@ -115,15 +131,15 @@ export default class Sticky extends React.Component {
     }
   }
 
-  on(events, callback) {
+  on(target, events, callback) {
     events.forEach((evt) => {
-      window.addEventListener(evt, callback);
+      target.addEventListener(evt, callback);
     });
   }
 
-  off(events, callback) {
+  off(target, events, callback) {
     events.forEach((evt) => {
-      window.removeEventListener(evt, callback);
+      target.removeEventListener(evt, callback);
     });
   }
 
