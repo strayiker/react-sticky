@@ -74,11 +74,13 @@ export default class Sticky extends React.Component {
   }
 
   getWidth() {
-    return this.refs.placeholder.getBoundingClientRect().width;
+    const bounds = this.refs.placeholder.getBoundingClientRect();
+    return bounds.width || (bounds.right - bounds.left);
   }
 
   getHeight() {
-    return ReactDOM.findDOMNode(this.refs.children).getBoundingClientRect().height;
+    const bounds = ReactDOM.findDOMNode(this.refs.children).getBoundingClientRect();
+    return bounds.height || (bounds.bottom - bounds.top);
   }
 
   getDistanceFromTop() {

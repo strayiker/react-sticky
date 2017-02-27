@@ -357,12 +357,14 @@ return /******/ (function(modules) { // webpackBootstrap
 	  }, {
 	    key: 'getWidth',
 	    value: function getWidth() {
-	      return this.refs.placeholder.getBoundingClientRect().width;
+	      var bounds = this.refs.placeholder.getBoundingClientRect();
+	      return bounds.width || bounds.right - bounds.left;
 	    }
 	  }, {
 	    key: 'getHeight',
 	    value: function getHeight() {
-	      return _reactDom2.default.findDOMNode(this.refs.children).getBoundingClientRect().height;
+	      var bounds = _reactDom2.default.findDOMNode(this.refs.children).getBoundingClientRect();
+	      return bounds.height || bounds.bottom - bounds.top;
 	    }
 	  }, {
 	    key: 'getDistanceFromTop',
